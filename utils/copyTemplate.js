@@ -5,7 +5,7 @@ const chalk = require('chalk')
 const Spinner = require('clui').Spinner
 
 
-function generateTemplate (projectName) {
+function generateTemplate (projectName, type) {
   const targetDir = path.join(process.cwd(), projectName)
   if (fs.existsSync(targetDir)) {
     // 文件夹已存在
@@ -27,20 +27,25 @@ function generateTemplate (projectName) {
         deleteFloderRecursive(targetDir)
         fs.mkdirSync(targetDir)
         startSpinner()
-        copyTtemplate(targetDir)
+        copyTtemplate(targetDir, type)
       }
     }).catch(err => {
       console.log(chalk.red(err))
     })
   } else {
     fs.mkdirSync(targetDir)
-    copyTtemplate(targetDir)
+    copyTtemplate(targetDir, type)
   }
 }
 
 // 复制模版
-function copyTtemplate (targetPath) {
-  const temPath = path.resolve(__dirname, '../lib/npm/template')
+function copyTtemplate (targetPath, type) {
+  let temPath = ''
+  if (type === 'npm') {
+    temPath = path.resolve(__dirname, '../lib/npm/template')
+  } else if (type === 'koa') {
+    temPath = path.resolve(__dirname, '../lib/koa/template')
+  }
   function readAndCopyFile (temPath, targetPath) {
     fs.readdirSync(temPath).forEach((file) => {
       let curPath = temPath + '/' + file
@@ -86,7 +91,7 @@ function startSpinner () {
   setInterval(() => {
     second++
     time.message(`Generating template ${second} seconds...`)
-    if (second > Math.random() * 10 + 1) {
+    if (second > [3,4,5,6,3,5,6,4,3,3][parseInt(Math.random() * 10)]) {
       stopSpinner()
     }
   }, 1000)
