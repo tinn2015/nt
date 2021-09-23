@@ -11,6 +11,8 @@
   },
   "author": "",
   "license": "ISC",
+  "repository": "https://github.com/tinn2015/nt.git",
+  "homepage": "https://github.com/tinn2015/nt",
   "dependencies": {
     "chalk": "^4.1.2",
     "clui": "^0.3.6",
